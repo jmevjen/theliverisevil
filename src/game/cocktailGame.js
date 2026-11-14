@@ -7,8 +7,7 @@ import {
   spendPlayerWater,
   addPlayerWater,
   evaluateRoundGoal,
-  calculateFinalScores,
-  getPlayerTotalWater
+  calculateFinalScores
 } from './evaluators.js';
 
 // Helper to shuffle array
@@ -24,8 +23,9 @@ function shuffle(array) {
 export const CocktailWingspanGame = {
   name: 'cocktail-wingspan',
 
-  setup: (ctx, setupData = {}) => {
-    const numPlayers = ctx.numPlayers || 2;
+  setup: (context, setupData = {}) => {
+    const ctx = (context && context.ctx) ? context.ctx : context || {};
+    const numPlayers = (ctx && ctx.numPlayers) ? ctx.numPlayers : 2;
     const shuffledDeck = shuffle(DRINKS_DATA);
     const shuffledBonus = shuffle(BONUS_CARDS_DATA);
     const shuffledGoals = shuffle(ALL_END_GOALS).slice(0, 4);
@@ -99,8 +99,8 @@ export const CocktailWingspanGame = {
     setupPhase: {
       start: true,
       moves: {
-        discardBonusCard: (G, ctx, bonusCardId) => {
-          const pid = ctx.playerID;
+        discardBonusCard: ({ G, ctx, playerID }, bonusCardId) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || player.setupDone) return;
 
@@ -109,7 +109,6 @@ export const CocktailWingspanGame = {
           if (kept) {
             player.bonusCards = [kept];
           } else {
-            // Fallback keep the first
             player.bonusCards = [player.initialBonusDrawn[0]];
           }
           player.setupDone = true;
@@ -120,8 +119,8 @@ export const CocktailWingspanGame = {
           });
         },
 
-        keepBonusCard: (G, ctx, keptBonusCardId) => {
-          const pid = ctx.playerID;
+        keepBonusCard: ({ G, ctx, playerID }, keptBonusCardId) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || player.setupDone) return;
 
@@ -136,23 +135,27 @@ export const CocktailWingspanGame = {
           }
         }
       },
-      endIf: (G) => {
-        // Phase ends when all players have discarded/kept their bonus card
+      endIf: (context) => {
+        const G = context.G || context;
+        if (!G || !G.players) return false;
         return Object.values(G.players).every(p => p.setupDone);
       },
-      onEnd: (G) => {
-        G.gameLog.unshift({
-          timestamp: Date.now(),
-          text: "Setup complete! Round 1 begins with 8 action cubes per player."
-        });
+      onEnd: (context) => {
+        const G = context.G || context;
+        if (G && G.gameLog) {
+          G.gameLog.unshift({
+            timestamp: Date.now(),
+            text: "Setup complete! Round 1 begins with 8 action cubes per player."
+          });
+        }
       },
       next: 'playPhase'
     },
 
     playPhase: {
       moves: {
-        playDrinkCard: (G, ctx, { cardId, rowKey, colIdx }) => {
-          const pid = ctx.playerID;
+        playDrinkCard: ({ G, ctx, playerID, events }, { cardId, rowKey, colIdx }) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || player.actionsRemaining <= 0) return;
 
@@ -203,11 +206,11 @@ export const CocktailWingspanGame = {
             text: `${player.name} played "${card.name}" into ${rowKey} (Col ${colIdx + 1}) for ${waterCost} water.`
           });
 
-          checkRoundAndAdvance(G, ctx);
+          checkRoundAndAdvance(G, ctx, events);
         },
 
-        activateRow: (G, ctx, { rowKey, tradeOption, choices = {} }) => {
-          const pid = ctx.playerID;
+        activateRow: ({ G, ctx, playerID, events }, { rowKey, tradeOption, choices = {} }) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || player.actionsRemaining <= 0) return;
 
@@ -226,7 +229,6 @@ export const CocktailWingspanGame = {
           if (rowKey === 'Refreshing') {
             let waterGained = slot.base.water;
             if (tradeOption && player.hand.length > 0 && choices.discardCardId) {
-              // Discard 1 card for +1 water
               player.hand = player.hand.filter(c => c.id !== choices.discardCardId);
               waterGained += 1;
               logDetails.push("traded 1 card for +1 water");
@@ -253,7 +255,6 @@ export const CocktailWingspanGame = {
               cardsToDraw += 1;
               logDetails.push(`traded 1 ${choices.discardIngredient} for +1 card`);
             }
-            // Draw cards
             for (let i = 0; i < cardsToDraw; i++) {
               if (G.deck.length > 0) {
                 const drawn = G.deck.pop();
@@ -348,21 +349,19 @@ export const CocktailWingspanGame = {
             text: `${player.name} activated ${rowKey} row (${logDetails.join(', ')}).${pwrText}`
           });
 
-          checkRoundAndAdvance(G, ctx);
+          checkRoundAndAdvance(G, ctx, events);
         },
 
-        drawFromTray: (G, ctx, trayIndex) => {
-          const pid = ctx.playerID;
+        drawFromTray: ({ G, ctx, playerID }, trayIndex) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || trayIndex < 0 || trayIndex >= G.tray.length) return;
 
           const card = G.tray[trayIndex];
           if (!card) return;
 
-          // Take from tray into hand
           player.hand.push(card);
 
-          // Replenish tray from deck
           if (G.deck.length > 0) {
             G.tray[trayIndex] = G.deck.pop();
           } else {
@@ -375,12 +374,11 @@ export const CocktailWingspanGame = {
           });
         },
 
-        resetTray: (G, ctx) => {
-          const pid = ctx.playerID;
+        resetTray: ({ G, ctx, playerID }) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (G.deck.length === 0) return;
 
-          // Discard current tray and deal up to 3 new cards
           const newTray = [];
           for (let i = 0; i < 3 && G.deck.length > 0; i++) {
             newTray.push(G.deck.pop());
@@ -393,8 +391,8 @@ export const CocktailWingspanGame = {
           });
         },
 
-        passAction: (G, ctx) => {
-          const pid = ctx.playerID;
+        passAction: ({ G, ctx, playerID, events }) => {
+          const pid = playerID || (ctx && ctx.playerID) || (ctx && ctx.currentPlayer) || '0';
           const player = G.players[pid];
           if (!player || player.actionsRemaining <= 0) return;
 
@@ -406,14 +404,15 @@ export const CocktailWingspanGame = {
             text: `${player.name} passed their action.`
           });
 
-          checkRoundAndAdvance(G, ctx);
+          checkRoundAndAdvance(G, ctx, events);
         }
       }
     }
   },
 
-  endIf: (G) => {
-    if (G.isGameOver) {
+  endIf: (context) => {
+    const G = context.G || context;
+    if (G && G.isGameOver) {
       return { winner: G.winner, finalScores: G.finalScores };
     }
   }
@@ -422,12 +421,11 @@ export const CocktailWingspanGame = {
 /**
  * Handle turn passing and round completion checks
  */
-function checkRoundAndAdvance(G, ctx) {
+function checkRoundAndAdvance(G, ctx, events) {
   // Check if ALL players have 0 actions remaining for this round
   const allActionsDone = Object.values(G.players).every(p => p.actionsRemaining <= 0);
 
   if (allActionsDone) {
-    // End of Round reached!
     const roundNumber = G.currentRound;
     const currentGoal = G.endGoals[roundNumber - 1];
 
@@ -451,7 +449,7 @@ function checkRoundAndAdvance(G, ctx) {
     }
 
     if (roundNumber >= 4) {
-      // Game Over after Round 4!
+      // Game Over after Round 4
       G.isGameOver = true;
       const finalResult = calculateFinalScores(G);
       G.finalScores = finalResult;
@@ -479,7 +477,9 @@ function checkRoundAndAdvance(G, ctx) {
   }
 
   // End turn to advance player in boardgame.io
-  if (ctx.events && ctx.events.endTurn) {
+  if (events && events.endTurn) {
+    events.endTurn();
+  } else if (ctx && ctx.events && ctx.events.endTurn) {
     ctx.events.endTurn();
   }
 }

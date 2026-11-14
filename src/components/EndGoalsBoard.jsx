@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trophy, Target, Award, CheckCircle } from 'lucide-react';
-import { END_GOAL_SCHEMA } from '../data/endGoalsData';
+import { END_GOAL_SCHEMA, GOAL_EVALUATORS } from '../data/endGoalsData';
 
 export default function EndGoalsBoard({
   endGoals = [],
@@ -89,7 +89,8 @@ export default function EndGoalsBoard({
                     displayValue = `${r ? r.rawScore : 0} (${r ? r.points : 0} pts)`;
                     pointsEarned = r ? r.points : 0;
                   } else {
-                    const raw = goal.evaluate(p);
+                    const evalFn = GOAL_EVALUATORS[goal.id] || (() => 0);
+                    const raw = evalFn(p);
                     displayValue = `${raw} count`;
                   }
 

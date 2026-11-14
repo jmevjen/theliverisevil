@@ -4,9 +4,9 @@
   "description": "The Liver is Evil - Cocktail Wingspan Board Game",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --open",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --open"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.5",

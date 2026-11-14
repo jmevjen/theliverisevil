@@ -1,5 +1,5 @@
-import { ALL_END_GOALS, END_GOAL_SCHEMA } from '../data/endGoalsData.js';
-import { BONUS_CARDS_DATA } from '../data/bonusCardsData.js';
+import { ALL_END_GOALS, END_GOAL_SCHEMA, GOAL_EVALUATORS } from '../data/endGoalsData.js';
+import { BONUS_CARDS_DATA, BONUS_EVALUATORS } from '../data/bonusCardsData.js';
 import { COLUMN_WATER_COSTS } from '../data/tableauData.js';
 
 /**
@@ -135,10 +135,11 @@ export function addPlayerWater(player, amount, preferredCardId = null) {
  */
 export function evaluateRoundGoal(players, goalObj, roundNumber) {
   const schema = END_GOAL_SCHEMA[roundNumber] || { 1: 3, 2: 1, 3: 0, 4: 0 };
+  const evaluator = GOAL_EVALUATORS[goalObj.id] || (() => 0);
   
   // Calculate each player's raw score on this goal
   const playerScores = Object.entries(players).map(([playerID, player]) => {
-    const rawScore = goalObj.evaluate(player);
+    const rawScore = evaluator(player);
     return {
       playerID,
       playerName: player.name || `Player ${parseInt(playerID) + 1}`,
@@ -216,13 +217,13 @@ export function calculateFinalScores(G) {
     let bonusCardsScore = 0;
     const bonusBreakdown = [];
     (player.bonusCards || []).forEach(bonus => {
-      const bonusDef = BONUS_CARDS_DATA.find(b => b.id === bonus.id || b.name === bonus.name);
-      if (bonusDef && bonusDef.evaluate) {
-        const evalResult = bonusDef.evaluate(allPlayedDrinks, player.tableau);
+      const evaluator = BONUS_EVALUATORS[bonus.id];
+      if (evaluator) {
+        const evalResult = evaluator(allPlayedDrinks, player.tableau);
         bonusCardsScore += evalResult.points;
         bonusBreakdown.push({
-          name: bonusDef.name,
-          ask: bonusDef.ask,
+          name: bonus.name,
+          ask: bonus.ask,
           count: evalResult.count,
           points: evalResult.points,
           details: evalResult.matchingNames
