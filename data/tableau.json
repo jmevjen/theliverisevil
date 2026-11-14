@@ -1,0 +1,56 @@
+[
+    {
+        "Categories": "Refreshing",
+        "What you get": "Water",
+        "column 1": "2 water",
+        "column 2": "2 (trade Drink Card for third)",
+        "column 3": "3",
+        "column 4": "3 (trade Drink Card for fourth)",
+        "column 5": "4"
+    },
+    {
+        "Categories": "Sours",
+        "What you get": "Ingredients",
+        "column 1": "2 ingredient",
+        "column 2": "2 (trade water for third)",
+        "column 3": "3",
+        "column 4": "3 (trade water for fourth)",
+        "column 5": "4"
+    },
+    {
+        "Categories": "Spirit Forward",
+        "What you get": "Drink cards",
+        "column 1": "1 Drink Card",
+        "column 2": "1 (trade ingredient)",
+        "column 3": "2",
+        "column 4": "2 (trade ingredient for third)",
+        "column 5": "3"
+    },
+    {
+        "Categories": "Tiki",
+        "What you get": "Water and Ingredients",
+        "column 1": "1 of either",
+        "column 2": "1 of either (trade Drink Card for second)",
+        "column 3": "2 of either",
+        "column 4": "2 of either (trade Drink Card for third)",
+        "column 5": "3 of either"
+    },
+    {
+        "Categories": "Dessert",
+        "What you get": "Ingredients and Drink Cards",
+        "column 1": "1 of either",
+        "column 2": "1 of either (trade water for second)",
+        "column 3": "2 of either",
+        "column 4": "2 of either (trade water for third)",
+        "column 5": "3 of either"
+    },
+    {
+        "Categories": "",
+        "What you get": "water cost",
+        "column 1": "0",
+        "column 2": "1",
+        "column 3": "2",
+        "column 4": "2",
+        "column 5": "3"
+    }
+]

@@ -1,0 +1,38 @@
+[
+    {
+        "Name": "Drinks in Refreshing",
+        "Qualifier": "Highest number of Drinks in Refreshing"
+    },
+    {
+        "Name": "Drinks in Sours",
+        "Qualifier": "Highest number of Drinks in Sours"
+    },
+    {
+        "Name": "Drinks in Spirit Forward",
+        "Qualifier": "Highest number of Drinks in Spirit Forward"
+    },
+    {
+        "Name": "Drinks in Dessert",
+        "Qualifier": "Highest number of Drinks in Dessert"
+    },
+    {
+        "Name": "Drinks in Tiki",
+        "Qualifier": "Highest number of Drinks in Tiki"
+    },
+    {
+        "Name": "Classic Drinks with water on them",
+        "Qualifier": "Highest number of Classic Drinks with water on them"
+    },
+    {
+        "Name": "Modern Drinks with water on them ",
+        "Qualifier": "Highest number of Modern Drinks with water on them"
+    },
+    {
+        "Name": "Sets of 5 water on cards across rows",
+        "Qualifier": "Highest number of Water on cards across rows"
+    },
+    {
+        "Name": "Total Drinks",
+        "Qualifier": "Most Drinks overall"
+    }
+]

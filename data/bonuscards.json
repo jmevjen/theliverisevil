@@ -1,0 +1,128 @@
+[
+    {
+        "Name": "Medicinal",
+        "Ask": "Drinks that include Bitters",
+        "Points": "5+ cards = 6 points",
+        "Conditions": "Drinks that include Bitters",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Strong Wine",
+        "Ask": "Drinks that include Apertifs",
+        "Points": "5+ cards = 6 points",
+        "Conditions": "Drinks that include Apertifs",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Spelt Wrong",
+        "Ask": "Drinks that include Liquer",
+        "Points": "5+ cards = 6 points",
+        "Conditions": "Drinks that include Liquer",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Other",
+        "Ask": "Drinks that include Misc",
+        "Points": "5+ cards = 6 points",
+        "Conditions": "Drinks that include Misc",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Juicy",
+        "Ask": "Drinks that include Juice",
+        "Points": "5+ cards = 6 points",
+        "Conditions": "Drinks that include Juice",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Traditionalist",
+        "Ask": "Drinks invented before 1900",
+        "Points": "",
+        "Conditions": "Invent before 1900",
+        "Hint on Cards": "19% of cards"
+    },
+    {
+        "Name": "How did you manage that?",
+        "Ask": "Drinks invented during prohibition",
+        "Points": "",
+        "Conditions": "Invented between 1920 and 1933",
+        "Hint on Cards": "5% of cards"
+    },
+    {
+        "Name": "Modernist",
+        "Ask": "Drinks invented in 21st century",
+        "Points": "4+ = 6 points",
+        "Conditions": "Invent 2000 and onwards",
+        "Hint on Cards": "5% of cards"
+    },
+    {
+        "Name": "Indiscriminate",
+        "Ask": "Equal Number of Cards amount Rows",
+        "Points": "",
+        "Conditions": "Even rows across the columns",
+        "Hint on Cards": ""
+    },
+    {
+        "Name": "Seasoned Alcoholic",
+        "Ask": "4-5 Cards in Spirit Forward",
+        "Points": "5 cards = 5 points",
+        "Conditions": "Must be Spirit Forward",
+        "Hint on Cards": "30% of cards"
+    },
+    {
+        "Name": "Urbanized",
+        "Ask": "Drinks with City Names",
+        "Points": "",
+        "Conditions": "Vancouver, Toronto, Chicago, Manhattan, Manhattan Perfecto",
+        "Hint on Cards": "Vancouver, Toronto, Chicago, Manhattan, Manhattan Perfecto"
+    },
+    {
+        "Name": "Hollywood",
+        "Ask": "Drinks named after celebrities",
+        "Points": "",
+        "Conditions": "Mary Pickford",
+        "Hint on Cards": "Mary Pickford"
+    },
+    {
+        "Name": "Tiki Enthuaist ",
+        "Ask": "4-5 Cards in Tiki",
+        "Points": "5 cards = 8 points",
+        "Conditions": "Must be Tiki",
+        "Hint on Cards": "7% of cards"
+    },
+    {
+        "Name": "Refresher",
+        "Ask": "4-5 Cards in Refreshing",
+        "Points": "5 cards = 5 points",
+        "Conditions": "Must be Refreshing",
+        "Hint on Cards": "30% of cards"
+    },
+    {
+        "Name": "Sourpuss",
+        "Ask": "4-5 Cards in Sour",
+        "Points": "5 cards = 6 points",
+        "Conditions": "Must be Sour",
+        "Hint on Cards": "22% of cards"
+    },
+    {
+        "Name": "Sweet Tooth",
+        "Ask": "4-5 Cards in Dessert",
+        "Points": "5 cards = 7 points",
+        "Conditions": "Must be Dessert",
+        "Hint on Cards": "12% of cards"
+    },
+    {
+        "Name": "Pre-prohibitionist",
+        "Ask": "Drinks Invented Before 1920",
+        "Points": "5 cards = 5 points",
+        "Conditions": "Invented before 1920",
+        "Hint on Cards": "48% of cards"
+    },
+    {
+        "Name": "Post-prohibitionist",
+        "Ask": "Drinks Invented After 1933",
+        "Points": "5 cards = 5 points",
+        "Conditions": "Invented 1933 and after",
+        "Hint on Cards": "47% of cards"
+    }
+]
